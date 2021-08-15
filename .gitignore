@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#idea
+.idea
+
+#terraform
+.terraform
+/terraform/.terraform.lock.hcl
