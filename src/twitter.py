@@ -25,10 +25,10 @@ TWITTER_CONSUMER_KEY = getenv('TWITTER_CONSUMER_KEY')
 TWITTER_CONSUMER_SECRET = getenv('TWITTER_CONSUMER_SECRET')
 
 # The user ID of @realDonaldTrump.
-TRUMP_USER_ID = '25073877'
+YAHOO_FINANCE_USER_ID = '19546277'
 
-# The user ID of @Trump2Cash.
-TRUMP2CASH_USER_ID = '812529080998432769'
+# The user ID of @.
+TWITTER_USER_ID = '1013211172852699136'
 
 # The URL pattern for links to tweets.
 TWEET_URL = 'https://twitter.com/%s/status/%s'
@@ -42,7 +42,7 @@ EMOJI_SHRUG = '¯\\_(\u30c4)_/¯'
 MAX_TWEET_SIZE = 140
 
 # The number of worker threads processing tweets.
-NUM_THREADS = 100
+NUM_THREADS = 20
 
 # The maximum time in seconds that workers wait for a new task on the queue.
 QUEUE_TIMEOUT_S = 5 * 60
@@ -83,7 +83,7 @@ class Twitter:
         twitter_stream = Stream(self.twitter_auth, self.twitter_listener)
 
         self.logs.debug('Starting stream.')
-        twitter_stream.filter(follow=[TRUMP_USER_ID])
+        twitter_stream.filter(track='finance')
 
         # If we got here because of an API error, raise it.
         if self.twitter_listener and self.twitter_listener.get_error_status():
@@ -197,7 +197,7 @@ class Twitter:
         # Only the 3,200 most recent tweets are available through the API. Use
         # the @Trump2Cash account to filter down to the relevant ones.
         for status in Cursor(self.twitter_api.user_timeline,
-                             user_id=TRUMP2CASH_USER_ID,
+                             user_id=TWITTER_USER_ID,
                              exclude_replies=True).items():
 
             # Extract the quoted @realDonaldTrump tweet, if available.
@@ -367,14 +367,7 @@ class TwitterListener(StreamListener):
             logs.error('Malformed tweet: %s' % tweet)
             return
 
-        # We're only interested in tweets from Mr. Trump himself, so skip the
-        # rest.
-        if user_id_str != TRUMP_USER_ID:
-            logs.debug('Skipping tweet from user: %s (%s)' %
-                       (screen_name, user_id_str))
-            return
-
-        logs.info('Examining tweet: %s' % tweet)
+        # logs.info('Examining tweet: %s' % tweet)
 
         # Call the callback.
         self.callback(tweet)

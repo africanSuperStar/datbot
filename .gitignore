@@ -134,3 +134,4 @@ dmypy.json
 #terraform
 .terraform
 /terraform/.terraform.lock.hcl
+/nohup.out
