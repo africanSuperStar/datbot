@@ -26,10 +26,10 @@ MAX_TRIES = 12
 BACKOFF_RESET_S = 30 * 60
 
 # The host for the monitor Web server.
-MONITOR_HOST = '34.133.233.162'
+MONITOR_HOST = '0.0.0.0'
 
 # The port for the monitor Web server.
-MONITOR_PORT = 8081
+MONITOR_PORT = 0
 
 # The message returned by the monitor Web server.
 MONITOR_MESSAGE = 'OK'
